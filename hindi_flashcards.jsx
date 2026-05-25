@@ -1100,7 +1100,7 @@ function ProgressBar({ current, total }) {
   );
 }
 
-function FlashCard({ word, showBack, onFlip, onEdit, onRemove, allUnits }) {
+function FlashCard({ word, showBack, onFlip, onEdit, onRemove, onGenerateExample, allUnits }) {
   const col = CATEGORY_COLORS[word.category];
   const units = allUnits || UNITS;
   return (
@@ -1124,8 +1124,8 @@ function FlashCard({ word, showBack, onFlip, onEdit, onRemove, allUnits }) {
       onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 4px 24px rgba(0,0,0,0.08)"; }}
     >
       {/* Action menu — edit / remove */}
-      {(onEdit || onRemove) && (
-        <WordMenu onEdit={onEdit} onRemove={onRemove} />
+      {(onEdit || onRemove || onGenerateExample) && (
+        <WordMenu onEdit={onEdit} onRemove={onRemove} onGenerateExample={onGenerateExample} />
       )}
 
       {/* top badges */}
@@ -1192,7 +1192,7 @@ function FlashCard({ word, showBack, onFlip, onEdit, onRemove, allUnits }) {
 }
 
 // ─── WORD MENU (⋮ dots on card) ──────────────────────────────────────────────
-function WordMenu({ onEdit, onRemove }) {
+function WordMenu({ onEdit, onRemove, onGenerateExample }) {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ position: "absolute", top: "14px", right: "14px", zIndex: 10 }}
@@ -1211,6 +1211,13 @@ function WordMenu({ onEdit, onRemove }) {
             minWidth: "140px", overflow: "hidden", zIndex: 10,
             border: "1px solid #e2e8f0",
           }}>
+            {onGenerateExample && API_KEY_CONFIGURED && (
+              <button onClick={() => { setOpen(false); onGenerateExample(); }} style={{
+                display: "block", width: "100%", padding: "10px 16px", border: "none",
+                background: "none", cursor: "pointer", textAlign: "left", fontSize: "14px",
+                color: "#7c3aed", fontWeight: 500,
+              }}>✦ New example</button>
+            )}
             {onEdit && (
               <button onClick={() => { setOpen(false); onEdit(); }} style={{
                 display: "block", width: "100%", padding: "10px 16px", border: "none",
@@ -1560,6 +1567,162 @@ Return ONLY the raw JSON object. No markdown, no backticks, no explanation.`;
   );
 }
 
+// ─── GENERATE EXAMPLE PANEL ───────────────────────────────────────────────────
+const DEFAULT_PROMPTS = {
+  noun: (w) =>
+    `Show "${w.devanagari}" used in its ${w.gender === "f" ? "feminine" : w.gender === "m" ? "masculine" : "gender"} form. Include either an oblique case, a plural, or a genitive construction (X का/की/के) so the gender inflection is visible.`,
+  verb: (w) =>
+    w.transitive
+      ? `Show "${w.devanagari}" in the perfect tense using the ने construction (transitive past).`
+      : `Show "${w.devanagari}" in the simple past tense (intransitive).`,
+  other: (w) =>
+    `Show "${w.devanagari}" used naturally in a short conversational sentence.`,
+};
+
+function GenerateExamplePanel({ word, onAdd, onClose }) {
+  const col = CATEGORY_COLORS[word.category] || CATEGORY_COLORS.other;
+  const defaultPrompt = (DEFAULT_PROMPTS[word.category] || DEFAULT_PROMPTS.other)(word);
+  const [prompt, setPrompt] = useState(defaultPrompt);
+  const [status, setStatus] = useState("idle");
+  const [result, setResult] = useState(null);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const generate = async () => {
+    setStatus("loading");
+    setResult(null);
+    setErrorMsg("");
+
+    const systemPrompt = `You are a Hindi language expert. Generate exactly one example sentence for this word.
+
+Word: ${word.devanagari} (${word.transliteration}) — ${word.meaning}
+Category: ${word.category}${word.gender ? `, gender: ${word.gender}` : ""}${word.transitive != null ? `, ${word.transitive ? "transitive" : "intransitive"}` : ""}
+
+Focus: ${prompt}
+
+Return ONLY a JSON object with exactly these fields:
+{
+  "sentence": "the Hindi sentence in Devanagari",
+  "transliteration": "IAST romanisation of the sentence",
+  "translation": "English translation with tense noted in parentheses e.g. (past) or (present)"
+}
+No markdown, no backticks, no explanation.`;
+
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
+          "anthropic-version": "2023-06-01",
+          "anthropic-dangerous-direct-browser-access": "true",
+        },
+        body: JSON.stringify({
+          model: "claude-haiku-4-5-20251001",
+          max_tokens: 400,
+          messages: [{ role: "user", content: systemPrompt }],
+        }),
+      });
+      const data = await res.json();
+      const raw = data.content?.find(b => b.type === "text")?.text || "";
+      const parsed = JSON.parse(raw.replace(/```json|```/g, "").trim());
+      setResult(parsed);
+      setStatus("done");
+    } catch {
+      setErrorMsg("Couldn't generate an example. Check the word and try again.");
+      setStatus("error");
+    }
+  };
+
+  const inputStyle = {
+    width: "100%", padding: "8px 12px", borderRadius: "8px",
+    border: "1.5px solid #e2e8f0", fontSize: "14px", boxSizing: "border-box",
+    outline: "none", color: "#1e293b", background: "#fafafa",
+  };
+
+  return (
+    <div style={{
+      position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 100,
+      display: "flex", alignItems: "center", justifyContent: "center", padding: "16px",
+    }} onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <div style={{
+        background: "#fff", borderRadius: "20px", padding: "28px 24px", width: "100%", maxWidth: "500px",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.2)", maxHeight: "90vh", overflowY: "auto",
+      }}>
+        {/* Header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+          <div>
+            <h2 style={{ margin: 0, fontSize: "18px", fontWeight: 700, color: "#1e293b" }}>✦ New example</h2>
+            <div style={{ fontSize: "14px", color: "#64748b", marginTop: "2px" }}>
+              <span style={{ fontFamily: "serif", fontSize: "16px", color: col.accent }}>{word.devanagari}</span>
+              {" — "}{word.meaning}
+            </div>
+          </div>
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "20px", color: "#94a3b8" }}>×</button>
+        </div>
+
+        {/* Prompt */}
+        <div style={{ marginBottom: "14px" }}>
+          <label style={{ fontSize: "12px", fontWeight: 600, color: "#64748b", marginBottom: "6px", display: "block" }}>
+            Focus (edit to customise)
+          </label>
+          <textarea
+            value={prompt}
+            onChange={e => { setPrompt(e.target.value); setStatus("idle"); setResult(null); }}
+            rows={3}
+            style={{ ...inputStyle, resize: "vertical", lineHeight: 1.5 }}
+          />
+        </div>
+
+        <button
+          onClick={generate}
+          disabled={status === "loading" || !prompt.trim()}
+          style={{
+            width: "100%", padding: "10px", borderRadius: "10px", border: "none",
+            background: status === "loading" || !prompt.trim() ? "#e2e8f0" : "#7c3aed",
+            color: status === "loading" || !prompt.trim() ? "#94a3b8" : "#fff",
+            cursor: status === "loading" || !prompt.trim() ? "default" : "pointer",
+            fontWeight: 700, fontSize: "14px", marginBottom: "14px",
+          }}
+        >
+          {status === "loading" ? "Generating…" : "Generate"}
+        </button>
+
+        {/* Error */}
+        {status === "error" && (
+          <div style={{ background: "#fef2f2", border: "1px solid #fecaca", borderRadius: "10px", padding: "10px 14px", marginBottom: "14px", color: "#dc2626", fontSize: "13px" }}>
+            {errorMsg}
+          </div>
+        )}
+
+        {/* Result */}
+        {result && (
+          <div style={{ background: col.bg, borderRadius: "12px", padding: "14px 16px", marginBottom: "16px", border: `1px solid ${col.accent}22` }}>
+            <div style={{ fontSize: "17px", fontFamily: "serif", color: "#1e293b", marginBottom: "4px" }}>{result.sentence}</div>
+            <div style={{ fontSize: "13px", fontStyle: "italic", color: "#64748b", marginBottom: "4px" }}>{result.transliteration}</div>
+            <div style={{ fontSize: "13px", color: "#475569" }}>{result.translation}</div>
+          </div>
+        )}
+
+        {/* Actions */}
+        <div style={{ display: "flex", gap: "8px" }}>
+          <button onClick={onClose} style={{
+            flex: 1, padding: "10px", borderRadius: "10px", border: "1.5px solid #e2e8f0",
+            background: "#fff", cursor: "pointer", fontWeight: 600, fontSize: "14px", color: "#475569",
+          }}>
+            {result ? "Discard" : "Cancel"}
+          </button>
+          {result && (
+            <button onClick={() => { onAdd(result); onClose(); }} style={{
+              flex: 2, padding: "10px", borderRadius: "10px", border: "none",
+              background: "#7c3aed", color: "#fff", cursor: "pointer", fontWeight: 700, fontSize: "14px",
+            }}>+ Add to card</button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── MANAGE DECKS PANEL ───────────────────────────────────────────────────────
 function ManageDecksPanel({ allUnits, allWords, onRename, onCreate, onDelete, onClose }) {
   const [newName, setNewName] = useState("");
@@ -1717,6 +1880,7 @@ export default function HindiFlashcards() {
   const [unitLabels, setUnitLabels] = useState({});
   const [showAddPanel, setShowAddPanel] = useState(false);
   const [showManageDecks, setShowManageDecks] = useState(false);
+  const [generatingExampleFor, setGeneratingExampleFor] = useState(null);
   const [storageReady, setStorageReady] = useState(false);
 
   // Load all persisted data on mount
@@ -1886,6 +2050,10 @@ export default function HindiFlashcards() {
     setEditingWord(null);
   };
 
+  const addExample = (word, example) => {
+    saveEdit({ ...word, examples: [...(word.examples || []), example] });
+  };
+
   const markKnown = () => {
     setKnown(s => { const n = new Set(s); n.add(current.id); return n; });
     setLearning(s => { const n = new Set(s); n.delete(current.id); return n; });
@@ -2006,6 +2174,7 @@ export default function HindiFlashcards() {
             onFlip={handleFlip}
             onEdit={() => setEditingWord(current)}
             onRemove={() => removeWord(current)}
+            onGenerateExample={() => setGeneratingExampleFor(current)}
             allUnits={allUnits}
           />
 
@@ -2100,6 +2269,15 @@ export default function HindiFlashcards() {
           onSave={saveEdit}
           onClose={() => setEditingWord(null)}
           allUnits={allUnits}
+        />
+      )}
+
+      {/* Generate Example Panel */}
+      {generatingExampleFor && (
+        <GenerateExamplePanel
+          word={generatingExampleFor}
+          onAdd={example => addExample(generatingExampleFor, example)}
+          onClose={() => setGeneratingExampleFor(null)}
         />
       )}
 
