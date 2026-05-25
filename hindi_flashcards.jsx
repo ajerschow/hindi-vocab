@@ -813,6 +813,9 @@ export default function HindiFlashcards() {
   const [showAddPanel, setShowAddPanel] = useState(false);
   const [showManageDecks, setShowManageDecks] = useState(false);
   const [storageReady, setStorageReady] = useState(false);
+  const [showNewCollection, setShowNewCollection] = useState(false);
+  const [newColName, setNewColName] = useState("");
+  const [newColMode, setNewColMode] = useState("duplicate");
   const importInputRef = useRef(null);
 
   // Load all persisted data on mount
@@ -911,6 +914,27 @@ export default function HindiFlashcards() {
     a.download = `${col.name.toLowerCase().replace(/\s+/g, "_")}.json`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const createCollection = async () => {
+    const name = newColName.trim() || "New Collection";
+    let col;
+    if (newColMode === "duplicate") {
+      col = {
+        version: 1,
+        name,
+        units: allUnits.map(({ id, label }) => ({ id, label })),
+        words: allWords,
+      };
+    } else {
+      col = { version: 1, name, units: [], words: [] };
+    }
+    setLoadedCollection(col);
+    await clearCollectionState();
+    try { await storage.set("loaded_collection", JSON.stringify(col)); } catch (_) {}
+    setShowNewCollection(false);
+    setNewColName("");
+    setNewColMode("duplicate");
   };
 
   const renameUnit = async (id, label) => {
@@ -1105,6 +1129,10 @@ export default function HindiFlashcards() {
         <button onClick={() => importInputRef.current?.click()} style={{
           background: "none", border: "none", cursor: "pointer", fontSize: "12px", color: "#6366f1", fontWeight: 600, padding: "0",
         }}>↓ Import</button>
+        <span style={{ fontSize: "12px", color: "#cbd5e1" }}>·</span>
+        <button onClick={() => { setNewColName(""); setNewColMode("duplicate"); setShowNewCollection(true); }} style={{
+          background: "none", border: "none", cursor: "pointer", fontSize: "12px", color: "#6366f1", fontWeight: 600, padding: "0",
+        }}>+ New</button>
         {loadedCollection && (
           <>
             <span style={{ fontSize: "12px", color: "#cbd5e1" }}>·</span>
@@ -1116,6 +1144,61 @@ export default function HindiFlashcards() {
         <input ref={importInputRef} type="file" accept=".json" style={{ display: "none" }}
           onChange={e => { if (e.target.files[0]) importCollection(e.target.files[0]); e.target.value = ""; }} />
       </div>
+
+      {/* New collection modal */}
+      {showNewCollection && (
+        <div style={{
+          position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", zIndex: 200,
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }} onClick={() => setShowNewCollection(false)}>
+          <div style={{
+            background: "#fff", borderRadius: "12px", padding: "24px", width: "320px",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ fontWeight: 700, fontSize: "16px", marginBottom: "16px" }}>New collection</div>
+            <input
+              value={newColName}
+              onChange={e => setNewColName(e.target.value)}
+              placeholder="Collection name"
+              autoFocus
+              onKeyDown={e => e.key === "Enter" && createCollection()}
+              style={{
+                width: "100%", padding: "8px 10px", borderRadius: "8px", border: "1.5px solid #e2e8f0",
+                fontSize: "14px", marginBottom: "14px", boxSizing: "border-box", outline: "none",
+              }}
+            />
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
+              {[
+                { value: "duplicate", label: "Duplicate current", desc: "Copy all words and decks as the new base" },
+                { value: "empty", label: "Empty collection", desc: "Start fresh with no words" },
+              ].map(opt => (
+                <label key={opt.value} style={{
+                  display: "flex", alignItems: "flex-start", gap: "10px", cursor: "pointer",
+                  padding: "10px 12px", borderRadius: "8px", border: `1.5px solid ${newColMode === opt.value ? "#6366f1" : "#e2e8f0"}`,
+                  background: newColMode === opt.value ? "#f0f0ff" : "#fafafa",
+                }}>
+                  <input type="radio" name="colMode" value={opt.value} checked={newColMode === opt.value}
+                    onChange={() => setNewColMode(opt.value)} style={{ marginTop: "2px", accentColor: "#6366f1" }} />
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: "13px" }}>{opt.label}</div>
+                    <div style={{ fontSize: "11px", color: "#94a3b8" }}>{opt.desc}</div>
+                  </div>
+                </label>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
+              <button onClick={() => setShowNewCollection(false)} style={{
+                padding: "8px 16px", borderRadius: "8px", border: "1.5px solid #e2e8f0",
+                background: "#fff", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#64748b",
+              }}>Cancel</button>
+              <button onClick={createCollection} style={{
+                padding: "8px 16px", borderRadius: "8px", border: "none",
+                background: "#6366f1", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#fff",
+              }}>Create</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Category filter row */}
       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "8px" }}>
