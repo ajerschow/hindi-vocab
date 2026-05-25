@@ -816,6 +816,8 @@ export default function HindiFlashcards() {
   const [showNewCollection, setShowNewCollection] = useState(false);
   const [newColName, setNewColName] = useState("");
   const [newColMode, setNewColMode] = useState("duplicate");
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [importMode, setImportMode] = useState("replace");
   const importInputRef = useRef(null);
 
   // Load all persisted data on mount
@@ -876,13 +878,54 @@ export default function HindiFlashcards() {
     } catch (_) {}
   };
 
-  const importCollection = (file) => {
+  const importCollection = (file, mode) => {
     const reader = new FileReader();
     reader.onload = async (e) => {
       try {
         const data = JSON.parse(e.target.result);
         if (!Array.isArray(data.words)) throw new Error("Missing words array");
-        const col = { name: data.name || "Imported Collection", units: data.units || [], words: data.words };
+
+        let col;
+        if (mode === "append") {
+          // Build unit map: match imported units to existing ones by ID then by label
+          const currentUnits = allUnits.map(({ id, label }) => ({ id, label }));
+          const unitIdRemap = {}; // imported id → existing id (when merged)
+          const mergedUnits = [...currentUnits];
+          for (const iu of (data.units || [])) {
+            const byId = mergedUnits.find(u => u.id === iu.id);
+            if (byId) {
+              unitIdRemap[iu.id] = byId.id;
+            } else {
+              const byLabel = mergedUnits.find(
+                u => u.label.toLowerCase() === iu.label.toLowerCase()
+              );
+              if (byLabel) {
+                unitIdRemap[iu.id] = byLabel.id;
+              } else {
+                mergedUnits.push({ id: iu.id, label: iu.label });
+              }
+            }
+          }
+
+          // Merge words: skip any whose ID already exists
+          const existingIds = new Set(allWords.map(w => w.id));
+          const newWords = (data.words || [])
+            .filter(w => !existingIds.has(w.id))
+            .map(w => ({
+              ...w,
+              unit: w.unit ? (unitIdRemap[w.unit] ?? w.unit) : w.unit,
+            }));
+
+          col = {
+            version: 1,
+            name: loadedCollection?.name ?? DEFAULT_COLLECTION.name,
+            units: mergedUnits,
+            words: [...allWords, ...newWords],
+          };
+        } else {
+          col = { name: data.name || "Imported Collection", units: data.units || [], words: data.words };
+        }
+
         setLoadedCollection(col);
         await clearCollectionState();
         try { await storage.set("loaded_collection", JSON.stringify(col)); } catch (_) {}
@@ -1126,7 +1169,7 @@ export default function HindiFlashcards() {
           background: "none", border: "none", cursor: "pointer", fontSize: "12px", color: "#6366f1", fontWeight: 600, padding: "0",
         }}>↑ Export</button>
         <span style={{ fontSize: "12px", color: "#cbd5e1" }}>·</span>
-        <button onClick={() => importInputRef.current?.click()} style={{
+        <button onClick={() => { setImportMode("replace"); setShowImportModal(true); }} style={{
           background: "none", border: "none", cursor: "pointer", fontSize: "12px", color: "#6366f1", fontWeight: 600, padding: "0",
         }}>↓ Import</button>
         <span style={{ fontSize: "12px", color: "#cbd5e1" }}>·</span>
@@ -1142,7 +1185,7 @@ export default function HindiFlashcards() {
           </>
         )}
         <input ref={importInputRef} type="file" accept=".json" style={{ display: "none" }}
-          onChange={e => { if (e.target.files[0]) importCollection(e.target.files[0]); e.target.value = ""; }} />
+          onChange={e => { if (e.target.files[0]) importCollection(e.target.files[0], importMode); e.target.value = ""; }} />
       </div>
 
       {/* New collection modal */}
@@ -1195,6 +1238,50 @@ export default function HindiFlashcards() {
                 padding: "8px 16px", borderRadius: "8px", border: "none",
                 background: "#6366f1", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#fff",
               }}>Create</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Import mode modal */}
+      {showImportModal && (
+        <div style={{
+          position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", zIndex: 200,
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }} onClick={() => setShowImportModal(false)}>
+          <div style={{
+            background: "#fff", borderRadius: "12px", padding: "24px", width: "320px",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ fontWeight: 700, fontSize: "16px", marginBottom: "16px" }}>Import collection</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
+              {[
+                { value: "replace", label: "Replace current", desc: "Swap out all words and decks with the imported file" },
+                { value: "append", label: "Append to current", desc: "Add new words; merge decks by name, skip duplicates" },
+              ].map(opt => (
+                <label key={opt.value} style={{
+                  display: "flex", alignItems: "flex-start", gap: "10px", cursor: "pointer",
+                  padding: "10px 12px", borderRadius: "8px", border: `1.5px solid ${importMode === opt.value ? "#6366f1" : "#e2e8f0"}`,
+                  background: importMode === opt.value ? "#f0f0ff" : "#fafafa",
+                }}>
+                  <input type="radio" name="importMode" value={opt.value} checked={importMode === opt.value}
+                    onChange={() => setImportMode(opt.value)} style={{ marginTop: "2px", accentColor: "#6366f1" }} />
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: "13px" }}>{opt.label}</div>
+                    <div style={{ fontSize: "11px", color: "#94a3b8" }}>{opt.desc}</div>
+                  </div>
+                </label>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
+              <button onClick={() => setShowImportModal(false)} style={{
+                padding: "8px 16px", borderRadius: "8px", border: "1.5px solid #e2e8f0",
+                background: "#fff", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#64748b",
+              }}>Cancel</button>
+              <button onClick={() => { setShowImportModal(false); importInputRef.current?.click(); }} style={{
+                padding: "8px 16px", borderRadius: "8px", border: "none",
+                background: "#6366f1", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#fff",
+              }}>Choose file…</button>
             </div>
           </div>
         </div>
