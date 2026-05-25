@@ -488,21 +488,10 @@ No markdown, no backticks, no explanation.`;
   );
 }
 
-// ─── ADD WORD PANEL ───────────────────────────────────────────────────────────
-function AddWordPanel({ onAdd, onClose }) {
-  const [input, setInput] = useState("");
-  const [status, setStatus] = useState("idle"); // idle | loading | done | error
-  const [preview, setPreview] = useState(null);
-  const [errorMsg, setErrorMsg] = useState("");
-
-  const generate = async () => {
-    const word = input.trim();
-    if (!word) return;
-    setStatus("loading");
-    setPreview(null);
-    setErrorMsg("");
-
-    const prompt = `You are a Hindi language expert. The user has entered a Hindi word or phrase: "${word}"
+// ─── AI ENTRY GENERATOR ───────────────────────────────────────────────────────
+async function generateHindiEntry(word, hint = "") {
+  const hintLine = hint ? `\n\nAdditional context from the user: ${hint}` : "";
+  const prompt = `You are a Hindi language expert. The user has entered a Hindi word or phrase: "${word}"${hintLine}
 
 Analyse it and return a JSON object with these exact fields:
 - "devanagari": the word in Devanagari script (correct it if needed)
@@ -519,30 +508,193 @@ Analyse it and return a JSON object with these exact fields:
 
 Return ONLY the raw JSON object. No markdown, no backticks, no explanation.`;
 
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true",
+    },
+    body: JSON.stringify({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 1000,
+      messages: [{ role: "user", content: prompt }],
+    }),
+  });
+  const data = await res.json();
+  const raw = data.content?.find(b => b.type === "text")?.text || "";
+  const clean = raw.replace(/```json|```/g, "").trim();
+  return JSON.parse(clean);
+}
+
+// Parse one line of a plain-text word list: "word (hint)" or just "word"
+function parseBulkLine(line) {
+  const trimmed = line.trim();
+  if (!trimmed) return null;
+  const m = trimmed.match(/^(.+?)\s*\((.+)\)\s*$/);
+  if (m) return { word: m[1].trim(), hint: m[2].trim() };
+  return { word: trimmed, hint: "" };
+}
+
+// ─── BULK IMPORT PANEL ────────────────────────────────────────────────────────
+function BulkImportPanel({ words, onAdd, onClose }) {
+  const [status, setStatus] = useState("idle"); // idle | running | done
+  const [results, setResults] = useState([]); // [{ word, hint, entry|null, error }]
+  const cancelRef = useRef(false);
+
+  const run = async () => {
+    setStatus("running");
+    cancelRef.current = false;
+    const acc = [];
+    for (let i = 0; i < words.length; i++) {
+      if (cancelRef.current) break;
+      const { word, hint } = words[i];
+      try {
+        const entry = await generateHindiEntry(word, hint);
+        entry.id = "bulk_" + Date.now() + "_" + i;
+        acc.push({ word, hint, entry, ok: true });
+      } catch {
+        acc.push({ word, hint, entry: null, ok: false });
+      }
+      setResults([...acc]);
+    }
+    setStatus("done");
+  };
+
+  const okCount = results.filter(r => r.ok).length;
+  const doneCount = results.length;
+
+  return (
+    <div style={{
+      position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)", zIndex: 110,
+      display: "flex", alignItems: "center", justifyContent: "center", padding: "16px",
+    }}>
+      <div style={{
+        background: "#fff", borderRadius: "20px", padding: "28px 24px", width: "100%", maxWidth: "520px",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.2)", maxHeight: "90vh", display: "flex", flexDirection: "column",
+      }}>
+        {/* Header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+          <h2 style={{ margin: 0, fontSize: "18px", fontWeight: 700, color: "#1e293b" }}>
+            ✨ AI Bulk Import
+          </h2>
+          {status !== "running" && (
+            <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "20px", color: "#94a3b8" }}>×</button>
+          )}
+        </div>
+
+        {/* Progress bar */}
+        {status !== "idle" && (
+          <div style={{ marginBottom: "12px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "#64748b", marginBottom: "4px" }}>
+              <span>{status === "done" ? `Done — ${okCount} generated, ${doneCount - okCount} failed` : `Generating ${doneCount} / ${words.length}…`}</span>
+              <span>{Math.round((doneCount / words.length) * 100)}%</span>
+            </div>
+            <div style={{ height: "6px", borderRadius: "3px", background: "#e2e8f0", overflow: "hidden" }}>
+              <div style={{
+                height: "100%", borderRadius: "3px", background: "#6366f1",
+                width: `${(doneCount / words.length) * 100}%`, transition: "width 0.3s",
+              }} />
+            </div>
+          </div>
+        )}
+
+        {/* Word list */}
+        <div style={{ overflowY: "auto", flex: 1, marginBottom: "16px" }}>
+          {words.map((w, i) => {
+            const res = results[i];
+            const icon = !res ? "◦" : res.ok ? "✓" : "✗";
+            const iconColor = !res ? "#cbd5e1" : res.ok ? "#16a34a" : "#dc2626";
+            const col = res?.entry ? CATEGORY_COLORS[res.entry.category] || CATEGORY_COLORS.other : null;
+            return (
+              <div key={i} style={{
+                display: "flex", alignItems: "flex-start", gap: "10px", padding: "8px 4px",
+                borderBottom: "1px solid #f1f5f9",
+              }}>
+                <span style={{ fontWeight: 700, fontSize: "15px", color: iconColor, minWidth: "16px", marginTop: "1px" }}>{icon}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: "13px", fontWeight: 600, color: "#1e293b" }}>
+                    {w.word}{w.hint && <span style={{ fontWeight: 400, color: "#94a3b8" }}> ({w.hint})</span>}
+                  </div>
+                  {res?.ok && res.entry && (
+                    <div style={{ fontSize: "12px", color: "#64748b", marginTop: "2px" }}>
+                      <span style={{
+                        display: "inline-block", fontSize: "10px", fontWeight: 700, padding: "1px 6px",
+                        borderRadius: "4px", background: col?.badge, color: col?.accent, marginRight: "6px", textTransform: "uppercase",
+                      }}>{res.entry.category}</span>
+                      {res.entry.devanagari} · {res.entry.transliteration} — {res.entry.meaning}
+                    </div>
+                  )}
+                  {res && !res.ok && (
+                    <div style={{ fontSize: "12px", color: "#dc2626", marginTop: "2px" }}>Failed to generate</div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Actions */}
+        <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end", flexShrink: 0 }}>
+          {status === "idle" && (
+            <>
+              <button onClick={onClose} style={{
+                padding: "9px 18px", borderRadius: "10px", border: "1.5px solid #e2e8f0",
+                background: "#fff", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#64748b",
+              }}>Cancel</button>
+              <button onClick={run} style={{
+                padding: "9px 18px", borderRadius: "10px", border: "none",
+                background: "#6366f1", cursor: "pointer", fontSize: "13px", fontWeight: 700, color: "#fff",
+              }}>Generate {words.length} {words.length === 1 ? "entry" : "entries"}</button>
+            </>
+          )}
+          {status === "running" && (
+            <button onClick={() => { cancelRef.current = true; }} style={{
+              padding: "9px 18px", borderRadius: "10px", border: "1.5px solid #e2e8f0",
+              background: "#fff", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#64748b",
+            }}>Stop</button>
+          )}
+          {status === "done" && (
+            <>
+              <button onClick={onClose} style={{
+                padding: "9px 18px", borderRadius: "10px", border: "1.5px solid #e2e8f0",
+                background: "#fff", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#64748b",
+              }}>Discard</button>
+              <button onClick={() => { onAdd(results.filter(r => r.ok).map(r => r.entry)); onClose(); }}
+                disabled={okCount === 0}
+                style={{
+                  padding: "9px 18px", borderRadius: "10px", border: "none",
+                  background: okCount > 0 ? "#6366f1" : "#e2e8f0", cursor: okCount > 0 ? "pointer" : "default",
+                  fontSize: "13px", fontWeight: 700, color: okCount > 0 ? "#fff" : "#94a3b8",
+                }}>Add {okCount} {okCount === 1 ? "entry" : "entries"} to collection</button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── ADD WORD PANEL ───────────────────────────────────────────────────────────
+function AddWordPanel({ onAdd, onClose }) {
+  const [input, setInput] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | loading | done | error
+  const [preview, setPreview] = useState(null);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const generate = async () => {
+    const word = input.trim();
+    if (!word) return;
+    setStatus("loading");
+    setPreview(null);
+    setErrorMsg("");
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
-          "anthropic-version": "2023-06-01",
-          "anthropic-dangerous-direct-browser-access": "true",
-        },
-        body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 1000,
-          messages: [{ role: "user", content: prompt }],
-        }),
-      });
-      const data = await res.json();
-      const raw = data.content?.find(b => b.type === "text")?.text || "";
-      const clean = raw.replace(/```json|```/g, "").trim();
-      const parsed = JSON.parse(clean);
-      // Assign a unique id
+      const parsed = await generateHindiEntry(word);
       parsed.id = "custom_" + Date.now();
       setPreview(parsed);
       setStatus("done");
-    } catch (e) {
+    } catch {
       setErrorMsg("Couldn't generate the entry. Please check the word and try again.");
       setStatus("error");
     }
@@ -818,7 +970,9 @@ export default function HindiFlashcards() {
   const [newColMode, setNewColMode] = useState("duplicate");
   const [showImportModal, setShowImportModal] = useState(false);
   const [importMode, setImportMode] = useState("replace");
+  const [bulkWords, setBulkWords] = useState(null); // null = hidden, array = show panel
   const importInputRef = useRef(null);
+  const textImportInputRef = useRef(null);
 
   // Load all persisted data on mount
   useEffect(() => {
@@ -1250,14 +1404,15 @@ export default function HindiFlashcards() {
           display: "flex", alignItems: "center", justifyContent: "center",
         }} onClick={() => setShowImportModal(false)}>
           <div style={{
-            background: "#fff", borderRadius: "12px", padding: "24px", width: "320px",
+            background: "#fff", borderRadius: "12px", padding: "24px", width: "340px",
             boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
           }} onClick={e => e.stopPropagation()}>
-            <div style={{ fontWeight: 700, fontSize: "16px", marginBottom: "16px" }}>Import collection</div>
+            <div style={{ fontWeight: 700, fontSize: "16px", marginBottom: "16px" }}>Import</div>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
               {[
-                { value: "replace", label: "Replace current", desc: "Swap out all words and decks with the imported file" },
-                { value: "append", label: "Append to current", desc: "Add new words; merge decks by name, skip duplicates" },
+                { value: "replace", label: "Replace current", desc: "Swap out all words and decks with the imported JSON file" },
+                { value: "append", label: "Append JSON to current", desc: "Add new words from a JSON file; merge decks by name, skip duplicates" },
+                { value: "text_ai", label: "Plain text list (AI)", desc: "One word per line, optional hint in parentheses — AI generates each full entry" },
               ].map(opt => (
                 <label key={opt.value} style={{
                   display: "flex", alignItems: "flex-start", gap: "10px", cursor: "pointer",
@@ -1269,6 +1424,13 @@ export default function HindiFlashcards() {
                   <div>
                     <div style={{ fontWeight: 600, fontSize: "13px" }}>{opt.label}</div>
                     <div style={{ fontSize: "11px", color: "#94a3b8" }}>{opt.desc}</div>
+                    {opt.value === "text_ai" && importMode === "text_ai" && (
+                      <div style={{ fontSize: "11px", color: "#6366f1", marginTop: "4px", fontFamily: "monospace", background: "#ededff", borderRadius: "4px", padding: "4px 6px" }}>
+                        किताब (noun)<br />
+                        जाना (verb, intransitive)<br />
+                        अच्छा
+                      </div>
+                    )}
                   </div>
                 </label>
               ))}
@@ -1278,13 +1440,46 @@ export default function HindiFlashcards() {
                 padding: "8px 16px", borderRadius: "8px", border: "1.5px solid #e2e8f0",
                 background: "#fff", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#64748b",
               }}>Cancel</button>
-              <button onClick={() => { setShowImportModal(false); importInputRef.current?.click(); }} style={{
+              <button onClick={() => {
+                setShowImportModal(false);
+                if (importMode === "text_ai") textImportInputRef.current?.click();
+                else importInputRef.current?.click();
+              }} style={{
                 padding: "8px 16px", borderRadius: "8px", border: "none",
                 background: "#6366f1", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#fff",
               }}>Choose file…</button>
             </div>
           </div>
         </div>
+      )}
+
+      {/* Hidden text file input for plain-text AI import */}
+      <input ref={textImportInputRef} type="file" accept=".txt,text/plain" style={{ display: "none" }}
+        onChange={e => {
+          const file = e.target.files[0];
+          if (!file) return;
+          e.target.value = "";
+          const reader = new FileReader();
+          reader.onload = ev => {
+            const lines = ev.target.result.split(/\r?\n/);
+            const parsed = lines.map(parseBulkLine).filter(Boolean);
+            if (parsed.length === 0) { alert("No words found in file."); return; }
+            setBulkWords(parsed);
+          };
+          reader.readAsText(file);
+        }} />
+
+      {/* Bulk AI import panel */}
+      {bulkWords && (
+        <BulkImportPanel
+          words={bulkWords}
+          onClose={() => setBulkWords(null)}
+          onAdd={async entries => {
+            const updated = [...customWords, ...entries];
+            setCustomWords(updated);
+            try { await storage.set("custom_words", JSON.stringify(updated)); } catch (_) {}
+          }}
+        />
       )}
 
       {/* Category filter row */}
