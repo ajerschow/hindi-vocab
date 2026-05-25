@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 // Each entry:
@@ -1952,7 +1952,15 @@ export default function HindiFlashcards() {
     return base;
   }, [allWords, filter, unitFilter, searchQ]);
 
+  const prevFilteredIdsRef = useRef(null);
   useEffect(() => {
+    const ids = filtered.map(w => w.id).join("\0");
+    if (prevFilteredIdsRef.current === ids) {
+      // Same cards, only data changed (e.g. a save) — update in place, keep position
+      setDeck(prev => prev.map(w => filtered.find(f => f.id === w.id) ?? w));
+      return;
+    }
+    prevFilteredIdsRef.current = ids;
     setDeck(shuffle(filtered));
     setIndex(0);
     setShowBack(false);
