@@ -20,10 +20,10 @@ npm run dev
 
 Opens at `http://localhost:5173`. The **+ Add word** button uses the Claude API to generate entries.
 
-## Build a standalone static site
+## Build a standalone HTML file
 
 ```bash
 npm run build
 ```
 
-Produces a self-contained `dist/` folder. The API key is **not** included in the build — the + Add word button is hidden automatically. Serve the folder with any static host or open `dist/index.html` directly in a browser.
+Produces a single self-contained `dist/index.html` with all JavaScript inlined. Open it directly in any browser — no server needed. The API key is **not** included in the build and the + Add word button is hidden automatically.
