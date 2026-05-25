@@ -1041,6 +1041,15 @@ const UNIT_WORDS = [
     examples:[{ sentence:"परसों मेरा जन्मदिन है।", transliteration:"Parsoṃ merā janmadin hai.", translation:"My birthday is the day after tomorrow." }]},
 ];
 
+const API_KEY_CONFIGURED = !!import.meta.env.VITE_ANTHROPIC_API_KEY;
+
+// ─── STORAGE ─────────────────────────────────────────────────────────────────
+// Use storage if available (Claude Code preview), otherwise localStorage.
+const storage = window.storage ?? {
+  get: (key) => Promise.resolve({ value: localStorage.getItem(key) }),
+  set: (key, value) => { localStorage.setItem(key, value); return Promise.resolve(); },
+};
+
 // ─── UTILITY ─────────────────────────────────────────────────────────────────
 const shuffle = (arr) => {
   const a = [...arr];
@@ -1715,11 +1724,11 @@ export default function HindiFlashcards() {
     (async () => {
       try {
         const [cw, ri, ov, cu, ul] = await Promise.allSettled([
-          window.storage.get("custom_words"),
-          window.storage.get("removed_ids"),
-          window.storage.get("word_overrides"),
-          window.storage.get("custom_units"),
-          window.storage.get("unit_labels"),
+          storage.get("custom_words"),
+          storage.get("removed_ids"),
+          storage.get("word_overrides"),
+          storage.get("custom_units"),
+          storage.get("unit_labels"),
         ]);
         if (cw.status === "fulfilled" && cw.value?.value)
           setCustomWords(JSON.parse(cw.value.value));
@@ -1753,11 +1762,11 @@ export default function HindiFlashcards() {
     if (UNITS.some(u => u.id === id)) {
       const updated = { ...unitLabels, [id]: label };
       setUnitLabels(updated);
-      try { await window.storage.set("unit_labels", JSON.stringify(updated)); } catch (_) {}
+      try { await storage.set("unit_labels", JSON.stringify(updated)); } catch (_) {}
     } else {
       const updated = customUnits.map(u => u.id === id ? { ...u, label } : u);
       setCustomUnits(updated);
-      try { await window.storage.set("custom_units", JSON.stringify(updated)); } catch (_) {}
+      try { await storage.set("custom_units", JSON.stringify(updated)); } catch (_) {}
     }
   };
 
@@ -1765,23 +1774,23 @@ export default function HindiFlashcards() {
     const id = "cu_" + Date.now();
     const updated = [...customUnits, { id, label }];
     setCustomUnits(updated);
-    try { await window.storage.set("custom_units", JSON.stringify(updated)); } catch (_) {}
+    try { await storage.set("custom_units", JSON.stringify(updated)); } catch (_) {}
   };
 
   const deleteUnit = async (id) => {
     const updatedUnits = customUnits.filter(u => u.id !== id);
     setCustomUnits(updatedUnits);
-    try { await window.storage.set("custom_units", JSON.stringify(updatedUnits)); } catch (_) {}
+    try { await storage.set("custom_units", JSON.stringify(updatedUnits)); } catch (_) {}
 
     const updatedWords = customWords.map(w => w.unit === id ? { ...w, unit: null } : w);
     setCustomWords(updatedWords);
-    try { await window.storage.set("custom_words", JSON.stringify(updatedWords)); } catch (_) {}
+    try { await storage.set("custom_words", JSON.stringify(updatedWords)); } catch (_) {}
 
     const updatedOverrides = Object.fromEntries(
       Object.entries(overrides).map(([wid, ov]) => [wid, ov.unit === id ? { ...ov, unit: null } : ov])
     );
     setOverrides(updatedOverrides);
-    try { await window.storage.set("word_overrides", JSON.stringify(updatedOverrides)); } catch (_) {}
+    try { await storage.set("word_overrides", JSON.stringify(updatedOverrides)); } catch (_) {}
 
     if (unitFilter === id) setUnitFilter("all");
   };
@@ -1848,12 +1857,12 @@ export default function HindiFlashcards() {
       // Remove from customWords
       const updated = customWords.filter(w => w.id !== word.id);
       setCustomWords(updated);
-      try { await window.storage.set("custom_words", JSON.stringify(updated)); } catch (_) {}
+      try { await storage.set("custom_words", JSON.stringify(updated)); } catch (_) {}
     } else {
       // Hide a built-in word via a "removed" set persisted in storage
       const updated = [...removedIds, word.id];
       setRemovedIds(new Set(updated));
-      try { await window.storage.set("removed_ids", JSON.stringify(updated)); } catch (_) {}
+      try { await storage.set("removed_ids", JSON.stringify(updated)); } catch (_) {}
     }
     // Advance deck if we just removed the current card
     setDeck(prev => {
@@ -1867,12 +1876,12 @@ export default function HindiFlashcards() {
     if (updated.id.startsWith("custom_")) {
       const newList = customWords.map(w => w.id === updated.id ? updated : w);
       setCustomWords(newList);
-      try { await window.storage.set("custom_words", JSON.stringify(newList)); } catch (_) {}
+      try { await storage.set("custom_words", JSON.stringify(newList)); } catch (_) {}
     } else {
       // Store overrides for built-in words
       const newOverrides = { ...overrides, [updated.id]: updated };
       setOverrides(newOverrides);
-      try { await window.storage.set("word_overrides", JSON.stringify(newOverrides)); } catch (_) {}
+      try { await storage.set("word_overrides", JSON.stringify(newOverrides)); } catch (_) {}
     }
     setEditingWord(null);
   };
@@ -1941,12 +1950,14 @@ export default function HindiFlashcards() {
         }}>
           {view === "cards" ? "≡ List" : "⊟ Cards"}
         </button>
-        <button onClick={() => setShowAddPanel(true)} style={{
-          padding: "6px 14px", borderRadius: "20px", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 600,
-          background: "#6366f1", color: "#fff",
-        }}>
-          + Add word
-        </button>
+        {API_KEY_CONFIGURED && (
+          <button onClick={() => setShowAddPanel(true)} style={{
+            padding: "6px 14px", borderRadius: "20px", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 600,
+            background: "#6366f1", color: "#fff",
+          }}>
+            + Add word
+          </button>
+        )}
       </div>
 
       {/* Unit filter row */}
@@ -2073,7 +2084,7 @@ export default function HindiFlashcards() {
             const updated = [...customWords, word];
             setCustomWords(updated);
             try {
-              await window.storage.set("custom_words", JSON.stringify(updated));
+              await storage.set("custom_words", JSON.stringify(updated));
             } catch (e) {
               console.error("Storage save failed:", e);
             }
