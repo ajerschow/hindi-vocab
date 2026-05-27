@@ -1,0 +1,998 @@
+{
+  "version": 1,
+  "name": "New Collection",
+  "exportedAt": "2026-05-27T13:58:51.665Z",
+  "units": [],
+  "words": [
+    {
+      "devanagari": "अंगूठा",
+      "transliteration": "aṅgūṭhā",
+      "meaning": "thumb / big toe",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मेरे अंगूठे में चोट लग गई है।",
+          "transliteration": "mere aṅgūṭhe mẽ chot lag gaī hai.",
+          "translation": "I have injured my thumb. (present perfect)"
+        },
+        {
+          "sentence": "बच्चे ने अपने अंगूठे को चूसा।",
+          "transliteration": "bachche ne apne aṅgūṭhe ko chūsā.",
+          "translation": "The child sucked his thumb. (past)"
+        }
+      ],
+      "id": "bulk_1779890206258_0"
+    },
+    {
+      "devanagari": "अकेलापन",
+      "transliteration": "akēlāpan",
+      "meaning": "loneliness / solitude / state of being alone",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "शहर में रहते हुए भी उसे गहरा अकेलापन महसूस होता है।",
+          "transliteration": "śahar mẽ rahtē huē bhī usē gahrā akēlāpan mahsūs hotā hai.",
+          "translation": "Despite living in the city, he feels a deep loneliness. (present)"
+        },
+        {
+          "sentence": "वह अकेलापन से बचने के लिए हमेशा किताबें पढ़ता है।",
+          "transliteration": "vah akēlāpan sē bacnē kē liyē hamēśā kitābẽ pṛhtā hai.",
+          "translation": "He always reads books to escape from loneliness. (present)"
+        }
+      ],
+      "id": "bulk_1779890209354_1"
+    },
+    {
+      "devanagari": "अलमारी",
+      "transliteration": "almārī",
+      "meaning": "cupboard / cabinet / wardrobe / closet",
+      "category": "noun",
+      "gender": "f",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मेरी किताबें अलमारी में रखी हैं।",
+          "transliteration": "merī kitābeṁ almārī meṁ rakhī haiṁ.",
+          "translation": "My books are kept in the cupboard. (present)"
+        },
+        {
+          "sentence": "वह अपने कपड़े अलमारी में लटकाती है।",
+          "transliteration": "vah apne kaprṛe almārī meṁ laṭkātī hai.",
+          "translation": "She hangs her clothes in the wardrobe. (present)"
+        }
+      ],
+      "id": "bulk_1779890211932_2"
+    },
+    {
+      "devanagari": "आँख",
+      "transliteration": "ā̃kh",
+      "meaning": "eye / sight / vision / attention",
+      "category": "noun",
+      "gender": "f",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मेरी आँख में धूल चली गई।",
+          "transliteration": "merī ā̃kh mẽ dhūl chalī gaī.",
+          "translation": "Dust went into my eye. (past)"
+        },
+        {
+          "sentence": "वह आँखें बंद करके सो गया।",
+          "transliteration": "vah ā̃khẽ band karke so gayā.",
+          "translation": "He fell asleep with his eyes closed. (past)"
+        }
+      ],
+      "id": "bulk_1779890214178_3"
+    },
+    {
+      "devanagari": "आँगन",
+      "transliteration": "āṅgan",
+      "meaning": "courtyard / open-air space in front of a house",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "बच्चे आँगन में खेल रहे हैं।",
+          "transliteration": "Bacche āṅgan mẽ khel rahe haiṁ.",
+          "translation": "The children are playing in the courtyard. (present continuous)"
+        },
+        {
+          "sentence": "घर के आँगन में एक नीम का पेड़ है।",
+          "transliteration": "Ghar ke āṅgan mẽ ek nīm kā ped hai.",
+          "translation": "There is a neem tree in the courtyard of the house. (present)"
+        }
+      ],
+      "id": "bulk_1779890216129_4"
+    },
+    {
+      "devanagari": "आकाश",
+      "transliteration": "ākāś",
+      "meaning": "sky / heaven / space / ether",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "आकाश में तारे चमक रहे हैं।",
+          "transliteration": "ākāś meṁ tāre chamak rahe haiṁ.",
+          "translation": "Stars are shining in the sky. (present continuous)"
+        },
+        {
+          "sentence": "बादल आकाश को ढक गए।",
+          "transliteration": "bādal ākāś ko ḍhak gae.",
+          "translation": "Clouds covered the sky. (past)"
+        }
+      ],
+      "id": "bulk_1779890218168_5"
+    },
+    {
+      "devanagari": "आगे",
+      "transliteration": "āge",
+      "meaning": "ahead / forward / in front / next / further / onwards",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "आगे का रास्ता बहुत लंबा है।",
+          "transliteration": "āge kā rāstā bahut lambā hai.",
+          "translation": "The path ahead is very long. (present)"
+        },
+        {
+          "sentence": "वह आगे बढ़ गया।",
+          "transliteration": "vah āge baṛh gayā.",
+          "translation": "He moved forward. (past)"
+        }
+      ],
+      "id": "bulk_1779890219951_6"
+    },
+    {
+      "devanagari": "आदर",
+      "transliteration": "ādar",
+      "meaning": "respect / honour / regard / esteem",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "हमें अपने बड़ों का आदर करना चाहिए।",
+          "transliteration": "hamem apne baṛom kā ādar karnā chāhie.",
+          "translation": "We should respect our elders. (present)"
+        },
+        {
+          "sentence": "शिक्षक को छात्रों से आदर की अपेक्षा है।",
+          "transliteration": "śikṣak ko chātrōm se ādar kī apekṣā hai.",
+          "translation": "The teacher expects respect from the students. (present)"
+        }
+      ],
+      "id": "bulk_1779890222169_7"
+    },
+    {
+      "devanagari": "आदरणीय",
+      "transliteration": "ādaraṇīya",
+      "meaning": "respectable / honorable / worthy of respect / venerable",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "आदरणीय प्रधानमंत्री जी ने देश को संबोधित किया।",
+          "transliteration": "ādaraṇīya pradhānamantrī jī ne deś ko sambodhat kiyā.",
+          "translation": "The honorable Prime Minister addressed the nation. (past)"
+        },
+        {
+          "sentence": "हमारे आदरणीय शिक्षक हमेशा हमें सही मार्ग दिखाते हैं।",
+          "transliteration": "hamāre ādaraṇīya śikṣak hameshā ham'em sahī mārag dikhāte haiṁ.",
+          "translation": "Our respectable teacher always shows us the right path. (present)"
+        }
+      ],
+      "id": "bulk_1779890224809_8"
+    },
+    {
+      "devanagari": "आधा",
+      "transliteration": "ādhā",
+      "meaning": "half / semi- / partial",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मुझे आधा गिलास पानी चाहिए।",
+          "transliteration": "Mujhe ādhā gilās pānī chāhie.",
+          "translation": "I need half a glass of water. (present)"
+        },
+        {
+          "sentence": "वह आधी रात को सो गया।",
+          "transliteration": "Vah ādhī rāt ko so gayā.",
+          "translation": "He fell asleep at midnight. (past)"
+        }
+      ],
+      "id": "bulk_1779890226590_9"
+    },
+    {
+      "devanagari": "आम तौर पर",
+      "transliteration": "ām taur par",
+      "meaning": "generally / usually / typically / ordinarily",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "आम तौर पर मैं सुबह छः बजे उठता हूँ।",
+          "transliteration": "Ām taur par main subah chah baje uthta hūn.",
+          "translation": "I usually wake up at 6 o'clock in the morning. (present habitual)"
+        },
+        {
+          "sentence": "आम तौर पर दिल्ली में गर्मी बहुत ज्यादा होती है।",
+          "transliteration": "Ām taur par Dilli mein garmi bahut zyada hoti hai.",
+          "translation": "Delhi is generally very hot. (present)"
+        }
+      ],
+      "id": "bulk_1779890229041_10"
+    },
+    {
+      "devanagari": "आराम करना",
+      "transliteration": "ārām karnā",
+      "meaning": "to rest / to relax / to take a break / to repose",
+      "category": "verb",
+      "gender": null,
+      "transitive": false,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मैं दोपहर में आराम करना चाहता हूँ।",
+          "transliteration": "Main dophar mein ārām karnā chāhtā hoon.",
+          "translation": "I want to rest in the afternoon. (present)"
+        },
+        {
+          "sentence": "कल वह पूरे दिन आराम करेगी।",
+          "transliteration": "Kal vah pure din ārām karegī.",
+          "translation": "Tomorrow she will rest the whole day. (future)"
+        }
+      ],
+      "id": "bulk_1779890231186_11"
+    },
+    {
+      "devanagari": "आराम से",
+      "transliteration": "ārām se",
+      "meaning": "slowly / gently / comfortably / at ease / leisurely",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "कृपया आराम से चलिए, जल्दी मत करो।",
+          "transliteration": "Kripayā ārām se chaliye, jaldī mat karo.",
+          "translation": "Please walk slowly, don't hurry. (present imperative)"
+        },
+        {
+          "sentence": "वह हमेशा आराम से अपना काम करता है।",
+          "transliteration": "Vah hameshā ārām se apnā kām kartā hai.",
+          "translation": "He always does his work leisurely/comfortably. (present habitual)"
+        }
+      ],
+      "id": "bulk_1779890233242_12"
+    },
+    {
+      "devanagari": "आवाज़",
+      "transliteration": "āvāz",
+      "meaning": "voice / sound / noise",
+      "category": "noun",
+      "gender": "f",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "उसकी आवाज़ बहुत मधुर है।",
+          "transliteration": "uskī āvāz bahut madhur hai.",
+          "translation": "His/Her voice is very sweet. (present)"
+        },
+        {
+          "sentence": "मैंने दूर से एक आवाज़ सुनी।",
+          "transliteration": "maiṁne dūr se ek āvāz sunī.",
+          "translation": "I heard a sound from afar. (past)"
+        }
+      ],
+      "id": "bulk_1779890235822_13"
+    },
+    {
+      "devanagari": "आशा",
+      "transliteration": "āśā",
+      "meaning": "hope / expectation / wish",
+      "category": "noun",
+      "gender": "f",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मुझे आशा है कि वह कल आएगा।",
+          "transliteration": "mujhe āśā hai ki vah kal āegā.",
+          "translation": "I hope that he will come tomorrow. (present)"
+        },
+        {
+          "sentence": "उसकी आशा टूट गई जब उसे नौकरी नहीं मिली।",
+          "transliteration": "uskī āśā tūṭ gaī jab use naukrī nahīṁ milī.",
+          "translation": "His hope was shattered when he did not get the job. (past)"
+        }
+      ],
+      "id": "bulk_1779890238460_14"
+    },
+    {
+      "devanagari": "आसान",
+      "transliteration": "āsān",
+      "meaning": "easy / simple / convenient",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "यह समस्या बहुत आसान है।",
+          "transliteration": "yah samasya bahut āsān hai.",
+          "translation": "This problem is very easy. (present)"
+        },
+        {
+          "sentence": "उसके लिए गणित आसान नहीं है।",
+          "transliteration": "uske lie ganit āsān nahī̃ hai.",
+          "translation": "Mathematics is not easy for him. (present)"
+        }
+      ],
+      "id": "bulk_1779890241447_15"
+    },
+    {
+      "devanagari": "इंतज़ार",
+      "transliteration": "intazār",
+      "meaning": "wait / waiting / expectation",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मुझे बस का इंतज़ार है।",
+          "transliteration": "mujhe bas kā intazār hai.",
+          "translation": "I am waiting for the bus. (present)"
+        },
+        {
+          "sentence": "लंबे इंतज़ार के बाद वह आखिरकार आ गया।",
+          "transliteration": "lambē intazār ke bād vah ākhirkār ā gayā.",
+          "translation": "After a long wait, he finally arrived. (past)"
+        }
+      ],
+      "id": "bulk_1779890244750_16"
+    },
+    {
+      "devanagari": "इतना",
+      "transliteration": "itnā",
+      "meaning": "so much / so many / this much / that much / to such an extent",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मुझे इतना पैसा नहीं चाहिए।",
+          "transliteration": "mujhe itnā paisā nahī̃ chāhie.",
+          "translation": "I don't need so much money. (present)"
+        },
+        {
+          "sentence": "वह इतनी मेहनत करता है कि हर कोई हैरान रह जाता है।",
+          "transliteration": "vah itnī mehnat kartā hai ki har koi hairān rah jātā hai.",
+          "translation": "He works so hard that everyone is amazed. (present)"
+        }
+      ],
+      "id": "bulk_1779890247312_17"
+    },
+    {
+      "devanagari": "इतिहास",
+      "transliteration": "itihāsa",
+      "meaning": "history / chronicle / account of past events",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "भारत का इतिहास बहुत पुराना और समृद्ध है।",
+          "transliteration": "bhārat kā itihāsa bahut purānā aur samṛddh hai.",
+          "translation": "India's history is very ancient and rich. (present)"
+        },
+        {
+          "sentence": "मुझे इतिहास की किताब पढ़ना पसंद है।",
+          "transliteration": "mujhe itihāsa kī kitāb paṛhnā pasand hai.",
+          "translation": "I like reading history books. (present)"
+        }
+      ],
+      "id": "bulk_1779890249274_18"
+    },
+    {
+      "devanagari": "इधर",
+      "transliteration": "idhar",
+      "meaning": "here / this side / in this direction",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "इधर आओ, मैं तुम्हें कुछ दिखाना चाहता हूँ।",
+          "transliteration": "Idhar āo, main tumhēṁ kuch dikhānā chāhtā hūँ.",
+          "translation": "Come here, I want to show you something. (present)"
+        },
+        {
+          "sentence": "इधर की हवा बहुत ताज़ी है।",
+          "transliteration": "Idhar kī hawā bahut tāzī hai.",
+          "translation": "The air on this side is very fresh. (present)"
+        }
+      ],
+      "id": "bulk_1779890251569_19"
+    },
+    {
+      "devanagari": "इमारत",
+      "transliteration": "imārat",
+      "meaning": "building / structure / edifice",
+      "category": "noun",
+      "gender": "f",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "यह पुरानी इमारत बहुत सुंदर है।",
+          "transliteration": "yah purānī imārat bahut sundar hai.",
+          "translation": "This old building is very beautiful. (present)"
+        },
+        {
+          "sentence": "सरकार ने नई इमारत का निर्माण किया।",
+          "transliteration": "sarkār ne naī imārat kā nirmāṇ kiyā.",
+          "translation": "The government constructed a new building. (past)"
+        }
+      ],
+      "id": "bulk_1779890253403_20"
+    },
+    {
+      "devanagari": "इलाज",
+      "transliteration": "ilāj",
+      "meaning": "treatment / cure / remedy / medical care",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "डॉक्टर ने मेरी बीमारी का सही इलाज किया।",
+          "transliteration": "ḍoktor ne merī bīmārī kā sahī ilāj kiyā.",
+          "translation": "The doctor gave me proper treatment for my illness. (past)"
+        },
+        {
+          "sentence": "इस दवा का इलाज बहुत प्रभावी है।",
+          "transliteration": "Is davā kā ilāj bahut prabhāvī hai.",
+          "translation": "This medicine's treatment is very effective. (present)"
+        }
+      ],
+      "id": "bulk_1779890255848_21"
+    },
+    {
+      "devanagari": "इसलिए",
+      "transliteration": "isliye",
+      "meaning": "therefore / for this reason / so / that is why",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मुझे बुखार था इसलिए मैं स्कूल नहीं गया।",
+          "transliteration": "mujhe bukhār thā isliye main skūl nahī̃ gayā.",
+          "translation": "I had a fever, therefore I did not go to school. (past)"
+        },
+        {
+          "sentence": "बारिश हो रही है इसलिए हम घर में रहेंगे।",
+          "transliteration": "bāriś ho rahī hai isliye ham ghar mẽ rahẽge.",
+          "translation": "It is raining, so we will stay at home. (future)"
+        }
+      ],
+      "id": "bulk_1779890258387_22"
+    },
+    {
+      "devanagari": "उँगली",
+      "transliteration": "uṅglī",
+      "meaning": "finger / toe",
+      "category": "noun",
+      "gender": "f",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मेरी उँगली में चोट लग गई है।",
+          "transliteration": "merī uṅglī mẽ chot lag gaī hai.",
+          "translation": "My finger is injured. (present perfect)"
+        },
+        {
+          "sentence": "बच्चे ने अपनी उँगली माँ को दिखाई।",
+          "transliteration": "bachche ne apnī uṅglī mā ko dikhāī.",
+          "translation": "The child showed his finger to mother. (past)"
+        }
+      ],
+      "id": "bulk_1779890260626_23"
+    },
+    {
+      "devanagari": "उगना",
+      "transliteration": "ugnā",
+      "meaning": "to grow / to sprout / to rise (of sun, moon) / to emerge",
+      "category": "verb",
+      "gender": null,
+      "transitive": false,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "बीज मिट्टी में उग गया।",
+          "transliteration": "bīj miṭṭī mẽ ug gayā.",
+          "translation": "The seed sprouted in the soil. (past)"
+        },
+        {
+          "sentence": "हर सुबह सूरज पूरब से उगता है।",
+          "transliteration": "har subah sūraj pūrab se ugtā hai.",
+          "translation": "Every morning the sun rises from the east. (present)"
+        }
+      ],
+      "id": "bulk_1779890263381_24"
+    },
+    {
+      "devanagari": "उठना",
+      "transliteration": "uṭhnā",
+      "meaning": "to rise / to stand up / to get up / to wake up / to lift",
+      "category": "verb",
+      "gender": null,
+      "transitive": false,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मुझे सुबह जल्दी उठना पड़ता है।",
+          "transliteration": "mujhe subah jaldī uṭhnā paṛtā hai.",
+          "translation": "I have to get up early in the morning. (present habitual)"
+        },
+        {
+          "sentence": "वह बिस्तर से उठ गया।",
+          "transliteration": "vah bistar se uṭh gayā.",
+          "translation": "He got up from the bed. (past perfective)"
+        }
+      ],
+      "id": "bulk_1779890265400_25"
+    },
+    {
+      "devanagari": "उठाना",
+      "transliteration": "uṭhānā",
+      "meaning": "to lift / to raise / to pick up / to stand up / to remove",
+      "category": "verb",
+      "gender": null,
+      "transitive": true,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "कृपया इस बॉक्स को उठा दीजिए।",
+          "transliteration": "kripayā is bŏks ko uṭhā dījie.",
+          "translation": "Please lift this box. (imperative)"
+        },
+        {
+          "sentence": "बच्चा अपनी माँ को देखकर हाथ उठाता है।",
+          "transliteration": "baccā apnī māñ ko dekhkar hāth uṭhātā hai.",
+          "translation": "The child raises his hand upon seeing his mother. (present)"
+        }
+      ],
+      "id": "bulk_1779890267923_26"
+    },
+    {
+      "devanagari": "उतरना",
+      "transliteration": "utarnā",
+      "meaning": "to descend / to go down / to come down / to alight / to get off / to diminish / to decrease",
+      "category": "verb",
+      "gender": null,
+      "transitive": false,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "वह सीढ़ियों से उतर रहा है।",
+          "transliteration": "vah sīḍhiyom se utar rahā hai.",
+          "translation": "He is descending the stairs. (present continuous)"
+        },
+        {
+          "sentence": "बस से उतरने के बाद मैं घर चला गया।",
+          "transliteration": "bas se utarne ke bād main ghar chalā gayā.",
+          "translation": "After getting off the bus, I went home. (past)"
+        }
+      ],
+      "id": "bulk_1779890270672_27"
+    },
+    {
+      "devanagari": "उत्तर",
+      "transliteration": "uttar",
+      "meaning": "answer / response / north / northern",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मुझे इस सवाल का उत्तर नहीं पता है।",
+          "transliteration": "mujhe is savāl kā uttar nahī̃ patā hai.",
+          "translation": "I don't know the answer to this question. (present)"
+        },
+        {
+          "sentence": "उत्तर भारत में बहुत ठंड पड़ती है।",
+          "transliteration": "uttar bhārat mẽ bahut ṭhand paṛtī hai.",
+          "translation": "Northern India experiences very cold weather. (present)"
+        }
+      ],
+      "id": "bulk_1779890273061_28"
+    },
+    {
+      "devanagari": "उधर",
+      "transliteration": "udhar",
+      "meaning": "there / that side / over there / in that direction",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "उधर देखो, एक पक्षी बैठा है।",
+          "transliteration": "udhar dekho, ek pakṣī baiṭhā hai.",
+          "translation": "Look over there, a bird is sitting. (present)"
+        },
+        {
+          "sentence": "मैं उधर जाऊँ या इधर रहूँ?",
+          "transliteration": "main udhar jāūँ yā idhar rahūँ?",
+          "translation": "Should I go over there or stay here? (present)"
+        }
+      ],
+      "id": "bulk_1779890275430_29"
+    },
+    {
+      "devanagari": "उम्र",
+      "transliteration": "umr",
+      "meaning": "age / lifespan / lifetime / period of time",
+      "category": "noun",
+      "gender": "f",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मेरी उम्र 25 साल है।",
+          "transliteration": "merī umr 25 sāl hai.",
+          "translation": "I am 25 years old. (present)"
+        },
+        {
+          "sentence": "उसकी उम्र में अभी बहुत संभावनाएं हैं।",
+          "transliteration": "uskī umr mẽ abhī bahut sambhāvnāẽ haiñ.",
+          "translation": "At his/her age, there are still many possibilities. (present)"
+        }
+      ],
+      "id": "bulk_1779890277574_30"
+    },
+    {
+      "devanagari": "उल्टी",
+      "transliteration": "ultī",
+      "meaning": "vomit / vomiting / reverse / opposite / inverted",
+      "category": "noun",
+      "gender": "f",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "बच्चे को बुखार है इसलिए उसे उल्टी आ रही है।",
+          "transliteration": "Bacche ko bukhār hai isliye use ultī ā rahī hai.",
+          "translation": "The child has a fever, so he/she is vomiting. (present continuous)"
+        },
+        {
+          "sentence": "मुझे इस दवा के बाद उल्टी हुई।",
+          "transliteration": "Mujhe is davā ke bād ultī huī.",
+          "translation": "I vomited after taking this medicine. (past)"
+        }
+      ],
+      "id": "bulk_1779890280351_31"
+    },
+    {
+      "devanagari": "ऊपर",
+      "transliteration": "ūpar",
+      "meaning": "above / on top / upper / overhead",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "आकाश में बादल ऊपर उड़ रहे हैं।",
+          "transliteration": "ākāś meṁ bādal ūpar uṛ rahe haiṁ.",
+          "translation": "Clouds are flying above in the sky. (present continuous)"
+        },
+        {
+          "sentence": "मेज के ऊपर किताब रखी है।",
+          "transliteration": "mez ke ūpar kitāb rakhī hai.",
+          "translation": "A book is placed on top of the table. (present)"
+        }
+      ],
+      "id": "bulk_1779890282627_32"
+    },
+    {
+      "devanagari": "ऋण",
+      "transliteration": "ṛṇ",
+      "meaning": "debt / loan / obligation",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मुझे बैंक से बड़ा ऋण लेना पड़ा।",
+          "transliteration": "Mujhe baink se bada ṛṇ lena pada.",
+          "translation": "I had to take a large loan from the bank. (past)"
+        },
+        {
+          "sentence": "वह अपने ऋण को चुकाने के लिए कड़ी मेहनत कर रहा है।",
+          "transliteration": "Vah apne ṛṇ ko chukane ke liye kadi mehnat kar raha hai.",
+          "translation": "He is working hard to repay his debt. (present)"
+        }
+      ],
+      "id": "bulk_1779890285182_33"
+    },
+    {
+      "devanagari": "ऐसा",
+      "transliteration": "aisā",
+      "meaning": "such / like this / of this kind",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मुझे ऐसा काम पसंद नहीं है।",
+          "transliteration": "mujhe aisā kām pasand nahī̃ hai.",
+          "translation": "I don't like such work. (present)"
+        },
+        {
+          "sentence": "क्या तुमने कभी ऐसी चीज़ देखी है?",
+          "transliteration": "kyā tumne kabhī aisī chīz dekhī hai?",
+          "translation": "Have you ever seen such a thing? (present perfect)"
+        }
+      ],
+      "id": "bulk_1779890287160_34"
+    },
+    {
+      "devanagari": "ओर",
+      "transliteration": "or",
+      "meaning": "and / or / direction / side / towards",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "वह किताब और कलम ले गया।",
+          "transliteration": "vah kitāb aur kalam le gayā.",
+          "translation": "He took a book and a pen. (past)"
+        },
+        {
+          "sentence": "घर की ओर चलो।",
+          "transliteration": "ghar kī or chalo.",
+          "translation": "Walk towards the house. (imperative)"
+        }
+      ],
+      "id": "bulk_1779890289115_35"
+    },
+    {
+      "devanagari": "कंधा",
+      "transliteration": "kandhā",
+      "meaning": "shoulder",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "उसने अपने कंधे पर बैग रख दिया।",
+          "transliteration": "usnē apnē kandhē par baig rakh diyā.",
+          "translation": "He put a bag on his shoulder. (past)"
+        },
+        {
+          "sentence": "बच्चा अपने पिता के कंधे पर बैठा है।",
+          "transliteration": "bachchā apnē pitā kē kandhē par baithā hai.",
+          "translation": "The child is sitting on his father's shoulder. (present)"
+        }
+      ],
+      "id": "bulk_1779890291224_36"
+    },
+    {
+      "devanagari": "काटना",
+      "transliteration": "kātnā",
+      "meaning": "to cut / to bite / to sting / to trim / to reduce / to deduct",
+      "category": "verb",
+      "gender": null,
+      "transitive": true,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मुझे चाकू से अपनी उंगली काट दी।",
+          "transliteration": "mujhe chāknū se apnī ungalī kāt dī.",
+          "translation": "I cut my finger with a knife. (past)"
+        },
+        {
+          "sentence": "वह हर दिन सब्जियां काटती है।",
+          "transliteration": "vah har din sabziyāṁ kāttī hai.",
+          "translation": "She cuts vegetables every day. (present)"
+        }
+      ],
+      "id": "bulk_1779890293488_37"
+    },
+    {
+      "devanagari": "कपड़ा",
+      "transliteration": "kapṛā",
+      "meaning": "cloth / fabric / garment / clothing",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मुझे नए कपड़े खरीदने हैं।",
+          "transliteration": "mujhe nae kapṛe kharīdne haiṁ.",
+          "translation": "I need to buy new clothes. (present)"
+        },
+        {
+          "sentence": "यह कपड़ा बहुत मुलायम है।",
+          "transliteration": "yah kapṛā bahut mulāym hai.",
+          "translation": "This cloth is very soft. (present)"
+        }
+      ],
+      "id": "bulk_1779890295487_38"
+    },
+    {
+      "devanagari": "कभी",
+      "transliteration": "kabhī",
+      "meaning": "sometimes / ever / at any time / occasionally",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मैं कभी-कभी सिनेमा देखने जाता हूँ।",
+          "transliteration": "maiṁ kabhī-kabhī sinemā dekhne jātā hūँ.",
+          "translation": "I sometimes go to watch movies. (present habitual)"
+        },
+        {
+          "sentence": "क्या तुम कभी दिल्ली गए हो?",
+          "transliteration": "kyā tum kabhī dillī gae ho?",
+          "translation": "Have you ever been to Delhi? (present perfect)"
+        }
+      ],
+      "id": "bulk_1779890299181_39"
+    },
+    {
+      "devanagari": "कमज़ोर",
+      "transliteration": "kamzor",
+      "meaning": "weak / feeble / fragile / powerless",
+      "category": "other",
+      "gender": null,
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मेरा स्वास्थ्य पिछले महीने से कमज़ोर हो गया है।",
+          "transliteration": "merā svāsthya pichle mahine se kamzor ho gayā hai.",
+          "translation": "My health has become weak over the past month. (present perfect)"
+        },
+        {
+          "sentence": "वह कमज़ोर शरीर के बावजूद भी बहुत मेहनती है।",
+          "transliteration": "vah kamzor sharīr ke bāvjūd bhī bahut mehnatī hai.",
+          "translation": "Despite his weak body, he is very hardworking. (present)"
+        }
+      ],
+      "id": "bulk_1779890302127_40"
+    },
+    {
+      "devanagari": "कमर",
+      "transliteration": "kamar",
+      "meaning": "waist / loins / lower back",
+      "category": "noun",
+      "gender": "f",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "उसकी कमर बहुत पतली है।",
+          "transliteration": "Uski kamar bahut patli hai.",
+          "translation": "Her waist is very slender. (present)"
+        },
+        {
+          "sentence": "मेरी कमर में दर्द है।",
+          "transliteration": "Meri kamar mein dard hai.",
+          "translation": "I have pain in my lower back. (present)"
+        }
+      ],
+      "id": "bulk_1779890303761_41"
+    },
+    {
+      "devanagari": "कमरा",
+      "transliteration": "kamarā",
+      "meaning": "room / chamber",
+      "category": "noun",
+      "gender": "m",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मेरा कमरा बहुत बड़ा है।",
+          "transliteration": "merā kamarā bahut bṝā hai.",
+          "translation": "My room is very large. (present)"
+        },
+        {
+          "sentence": "वह अपने कमरे में पढ़ रहा है।",
+          "transliteration": "vah apne kamare meṁ paṛh rahā hai.",
+          "translation": "He is studying in his room. (present continuous)"
+        }
+      ],
+      "id": "bulk_1779890305739_42"
+    },
+    {
+      "devanagari": "कमी",
+      "transliteration": "kamī",
+      "meaning": "shortage / deficiency / lack / absence / reduction",
+      "category": "noun",
+      "gender": "f",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "इस देश में पानी की कमी है।",
+          "transliteration": "Is desh mein pānī kī kamī hai.",
+          "translation": "There is a shortage of water in this country. (present)"
+        },
+        {
+          "sentence": "उसके ज्ञान में कोई कमी नहीं है।",
+          "transliteration": "Uske gyān mein koī kamī nahīṁ hai.",
+          "translation": "There is no lack of knowledge in him. (present)"
+        }
+      ],
+      "id": "bulk_1779890308284_43"
+    },
+    {
+      "devanagari": "क़मीज़",
+      "transliteration": "qamīz",
+      "meaning": "shirt / tunic",
+      "category": "noun",
+      "gender": "f",
+      "transitive": null,
+      "unit": null,
+      "examples": [
+        {
+          "sentence": "मैंने नई क़मीज़ ख़रीदी है।",
+          "transliteration": "maiṁne naī qamīz khārīdī hai.",
+          "translation": "I have bought a new shirt. (present perfect)"
+        },
+        {
+          "sentence": "यह नीली क़मीज़ बहुत अच्छी लगती है।",
+          "transliteration": "yah nīlī qamīz bahut achhī lagtī hai.",
+          "translation": "This blue shirt looks very nice. (present)"
+        }
+      ],
+      "id": "bulk_1779890310665_44"
+    }
+  ]
+}

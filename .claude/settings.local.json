@@ -13,7 +13,8 @@
       "Bash(/opt/homebrew/bin/npm run *)",
       "Bash(mkdir -p /Users/alexej/Documents/PROG/hindi_vocab/.claude)",
       "mcp__Claude_Preview__preview_start",
-      "Bash(pkill -f \"vite\")"
+      "Bash(pkill -f \"vite\")",
+      "Bash(echo \"grep exit: $?\")"
     ]
   }
 }
