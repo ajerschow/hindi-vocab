@@ -18,53 +18,43 @@ npm run dev
 ```
 
 Opens at `http://localhost:5173`.  
-The **+ Add word** and **AI bulk import** buttons use the Claude API to generate entries.  
-They are hidden automatically in any build where the key is absent.
+The **+ Add word** and **AI bulk import** buttons use the Claude API to generate entries.
 
-## Build a standalone HTML file
+## Build a standalone HTML file (with API key)
 
 ```bash
 npm run build
 ```
 
-Produces a single self-contained `dist/index.html` with all JavaScript and the default deck inlined.  
-Open it directly in any browser — no server needed.  
-The API key is **not** included and the AI buttons are hidden automatically.
+Produces a single self-contained `dist/index.html`. The API key from `.env` is baked
+in, so AI features work when opened directly in a browser.
 
-## Deploy to GitHub
-
-### 1. Create a GitHub repository
-
-On GitHub, create a new empty repo (no README, no .gitignore — the project already has both).
-
-### 2. Push the code
+## Deploy to GitHub Pages
 
 ```bash
-git remote add origin https://github.com/<you>/<repo>.git
-git push -u origin main
+npm run deploy
 ```
 
-The `.env` file is gitignored and will never be pushed.
+This does two things in one step:
 
-### 3. Enable GitHub Pages
+1. **Builds** the app with `VITE_ANTHROPIC_API_KEY` explicitly cleared — the key is
+   never baked into the deployed file even if `.env` is present locally.
+2. **Pushes** `dist/index.html` to the `gh-pages` branch on GitHub.
 
-In your repo go to **Settings → Pages** and set **Source** to **GitHub Actions**.
+The AI buttons are hidden automatically in the deployed version.
 
-That's it. Every push to `main` triggers `.github/workflows/deploy.yml`, which:
+### First-time setup
 
-1. Installs dependencies (`npm ci`)
-2. Runs `npm run build` — **without** the API key, so the built file is safe to serve publicly
-3. Deploys `dist/index.html` to GitHub Pages
+After the first `npm run deploy`, go to  
+**github.com/ajerschow/hindi-vocab → Settings → Pages**  
+and set **Source → Deploy from a branch**, branch **`gh-pages`**, folder **`/ (root)`**.
 
-The live URL will appear in the Actions run and in **Settings → Pages** once the first deploy completes.
+The site will be live at `https://ajerschow.github.io/hindi-vocab/`.
 
-### API key & the "+ Add word" button
+---
 
-| Context | Key available | AI buttons |
+| Context | API key in output | AI buttons |
 |---|---|---|
-| `npm run dev` (local) | ✅ via `.env` | Visible |
-| `npm run build` (local) | ✅ via `.env` | **Not** baked in — button hidden |
-| GitHub Pages (CI build) | ❌ intentionally absent | Hidden |
-
-The built HTML never contains the key regardless of how it is built.  
-If you want the AI features locally on the static file, run the dev server instead.
+| `npm run dev` | never (runtime only) | Visible |
+| `npm run build` | ✅ from `.env` | Visible |
+| `npm run deploy` | ❌ explicitly cleared | Hidden |
