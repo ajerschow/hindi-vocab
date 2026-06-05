@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(bun --version)",
+      "Bash(yarn --version)",
+      "Read(//usr/local/bin/**)",
+      "Read(//Users/alexej/.nvm/versions/**)",
+      "Bash(find /usr /opt /Applications -name \"node\" -type f 2>/dev/null | head -5; find /usr /opt -name \"npm\" -type f 2>/dev/null | head -5)",
+      "Bash(brew --version)",
+      "Bash(/opt/homebrew/bin/node --version)",
+      "Bash(/opt/homebrew/bin/npm --version)",
+      "Bash(/opt/homebrew/bin/npm run *)",
+      "Bash(mkdir -p /Users/alexej/Documents/PROG/hindi_vocab/.claude)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(pkill -f \"vite\")",
+      "Bash(echo \"grep exit: $?\")"
+    ]
+  }
+}
